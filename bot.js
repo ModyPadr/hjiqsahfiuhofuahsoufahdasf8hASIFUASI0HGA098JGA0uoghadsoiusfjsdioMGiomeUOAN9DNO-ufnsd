@@ -299,24 +299,57 @@ client.on('roleCreate', role => {
   
 //======================================[Commands]======================================
 
-client.on('message', function(msg) {
-if(msg.content.startsWith (prefix  + 'server')) {
- let embed = new Discord.RichEmbed()
- .setColor('RANDOM')
- .setThumbnail(msg.guild.iconURL)
- .setTitle(`Showing Details Of  **${msg.guild.name}*`)
- .addField(':globe_with_meridians:** نوع السيرفر**',`[** __${msg.guild.region}__ **]`,true)
- .addField(':medal:** __الرتب__**',`[** __${msg.guild.roles.size}__ **]`,true)
- .addField(':red_circle:**__ عدد الاعضاء__**',`[** __${msg.guild.memberCount}__ **]`,true)
- .addField(':large_blue_circle:**__ عدد الاعضاء الاونلاين__**',`[** __${msg.guild.members.filter(m=>m.presence.status == 'online').size}__ **]`,true)
- .addField(':pencil:**__ الرومات الكتابية__**',`[** __${msg.guild.channels.filter(m => m.type === 'text').size}__** ]`,true)
- .addField(':microphone:**__ رومات الصوت__**',`[** __${msg.guild.channels.filter(m => m.type === 'voice').size}__ **]`,true)
- .addField(':crown:**__ الأونـر__**',`**${msg.guild.owner}**`,true)
- .addField(':id:**__ ايدي السيرفر__**',`**${msg.guild.id}**`,true)
- .addField(':date:**__ تم عمل السيرفر في__**',msg.guild.createdAt.toLocaleString())
- msg.channel.send({embed:embed});
+  client.on('message', message => {
+    if (message.content.startsWith(prefix + "bans")) {
+        message.guild.fetchBans()
+        .then(bans => message.channel.send(${bans.size} عدد اشخاص المبندة من السيرفر))
+  .catch(console.error);
 }
 });
+  
+
+
+  client.on('guildCreate', guild => {
+client.channels.get("480798682703331348").send(`:white_check_mark: **${client.user.tag} دخل سيرفر جديد
+Server name: __${guild.name}__
+Server owner: __${guild.owner}__
+Server id: __${guild.id}__ 
+Server Count: __${guild.memberCount}__**`)
+});
+client.on('guildDelete', guild => {
+  client.channels.get("480798682703331348").send(`:negative_squared_cross_mark: **${client.user.tag} طلع من سيرفر
+Server name: __${guild.name}__
+Server owner: __${guild.owner}__
+Server id: __${guild.id}__ 
+Server Count: __${guild.memberCount}__**`)
+});
+  
+
+
+
+  client.on("message", async message => {
+  if(message.author.bot) return;
+  if(message.channel.type === "dm") return;
+  let prefix = botconfig.prefix;
+  let messageArray = message.content.split(" ");
+  let cmd = messageArray.slice(1);
+
+if(cmd === `${prefix}serverinfo`);
+let sicon = message.guild.displyAvatarURL;
+let serverEmbed = new Discord.RichEmbed()
+.setDescription("``Server Information``")
+.addField("Server Name", message.guild.name)
+.addField("Created On", message.guild.createdAt)
+.addField("You Joined", message.member.joinedAt)
+.addField("Total Members", message.guild.memberCount)
+.addField("Server Owner", message.guild.owner.user.username)
+.addField("Rooms", message.guild.channels.size)
+.addField("Roles", message.guild.roles.size)
+.addField("Region", message.guild.region)
+.addField("Server ID", message.guild.id);
+
+return message.channel.send(serverEmbed);
+})
 
 
 client.on("message", message => {
@@ -336,21 +369,6 @@ client.on("message", message => {
    message.channel.send({embed});
       }
   });
-
-
-client.on("message", (message) => {
-    const command = message.content.split(" ")[0];
-    const args = message.content.split(" ").slice();
-  if(command === "."){
-            let member = message.mentions.users.first(); 
-    if(typeof args[1] !== "number")
-message.channel.setPosition(args[1]).then(c => {
-    message.channel.send("ok");
-});
-}
-});//.catch(console.error);
-
-
 
 client.on('message', eyad => {
   if (eyad.content.startsWith('vb')) {
@@ -957,7 +975,7 @@ client.on('message',function(message) {
 
 client.on('message', async message => {
   let args = message.content.split(" ");
-  if(message.content.startsWith("mute")) {
+  if(message.content.startsWith(prefix + "mute")) {
     if(!message.member.hasPermission("MANAGE_ROLES")) return message.reply('**أنت لا تملك الخصائص اللازمة . يجب توفر خاصية `Manage Roles`**').then(msg => {
       msg.delete(3500);
       message.delete(3500);
@@ -1038,7 +1056,7 @@ client.on('message', async message => {
       mention.removeRole(role);
       message.channel.send(`**:white_check_mark: ${mention.user.username} unmuted in the server ! :neutral_face:  **  `);
     },duration * 60000);
-  } else if(message.content.startsWith("unmute")) {
+  } else if(message.content.startsWith(prefix + "unmute")) {
     let mention = message.mentions.members.first();
     let role = message.guild.roles.find('name', 'Muted') || message.guild.roles.get(r => r.name === 'Muted');
     if(!message.member.hasPermission("MANAGE_ROLES")) return message.reply('**أنت لا تملك الخصائص اللازمة . يجب توفر خاصية `Manage Roles`**').then(msg => {
@@ -1131,7 +1149,7 @@ if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply('**You
 
 client.on('message', message => {
 if(!message.channel.guild) return;
-if(message.content.startsWith( 'move')) {
+if(message.content.startsWith(prefix +'move')) {
  if (message.member.hasPermission("MOVE_MEMBERS")) {
  if (message.mentions.users.size === 0) {
  return message.channel.send("**لسحب شخص اليك ``سحب @منشن لشخص الي حبب تسحبه``**")
