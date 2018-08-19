@@ -299,16 +299,6 @@ client.on('roleCreate', role => {
   
 //======================================[Commands]======================================
 
-  client.on('message', message => {
-    if (message.content.startsWith(prefix + "bans")) {
-        message.guild.fetchBans()
-        .then(bans => message.channel.send(${bans.size} عدد اشخاص المبندة من السيرفر))
-  .catch(console.error);
-}
-});
-  
-
-
   client.on('guildCreate', guild => {
 client.channels.get("480798682703331348").send(`:white_check_mark: **${client.user.tag} دخل سيرفر جديد
 Server name: __${guild.name}__
