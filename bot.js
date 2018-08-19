@@ -11,10 +11,10 @@ const r1 = require('snekfetch');
 const Canvas = require("canvas");
 const jimp = require('jimp')
 const weather = require('weather-js');
-const prefix = "#";
-const adminprefix = "#";
-const admin = "#";
-const developers = ["316324088865882142","408136927259131905","418064523157700609"]
+const prefix = "$";
+const adminprefix = "$";
+const admin = "$";
+const developers = ["316324088865882142"]
 
   
 
@@ -25,7 +25,7 @@ const developers = ["316324088865882142","408136927259131905","41806452315770060
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-   client.user.setActivity("Dark Store",{type: 'STREAM'})
+   client.user.setActivity("Relax",{type: 'STREAM'})
 });
 
 client.on('guildMemberAdd', member=> {
@@ -56,11 +56,11 @@ client.on('message', message => {
       
   if (message.content.startsWith(admin + 'ply')) {
     client.user.setGame(argresult);
-      message.channel.send(`** :heart:  ${argresult}**`)
+      message.channel.send(`** :white_check_mark: ${argresult}**`)
   }  else  
   if (message.content.startsWith(admin + 'wt')) {
   client.user.setActivity(argresult, {type:'WATCHING'});
-      message.channel.send(`** :heart:  ${argresult}**`)
+      message.channel.send(`** :white_check_mark:  ${argresult}**`)
   } else 
   if (message.content.startsWith(admin + 'ls')) {
   client.user.setActivity(argresult , {type:'LISTENING'});
@@ -68,7 +68,7 @@ client.on('message', message => {
   } else 
   if (message.content.startsWith(admin + 'st')) {
     client.user.setGame(argresult, "https://www.twitch.tv/idk");
-      message.channel.send(`** :heart:  **`)
+      message.channel.send(`** :white_check_mark:  **`)
   }
   if (message.content.startsWith(admin + 'setname')) {
   client.user.setUsername(argresult).then
